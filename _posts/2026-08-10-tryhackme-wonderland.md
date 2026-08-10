@@ -353,4 +353,4 @@ Le second flag est caché dans le répertoire root, pour le trouver sans "hasard
 
 Je me suis beaucoup amusé sur ce CTF que j'ai trouvé assez complet notamment que c'est mon PREMIER CTF + Write-Up, j'ai notamment pu expérimenter des notions telles que le PATH Hijacking, le Python Library Hijacking et l'exploitation des binaires avec capabilities. J'espère que ce WriteUp va vous aider à comprendre ma démarche et vous éclairer sur le fonctionnement de ces vulnérabilités ! Amusez vous bien :)
 
-Ecrit par Clément MONCHAUX(https://tryhackme.com/p/clem.mchx)
+Ecrit par [Clément MONCHAUX](https://tryhackme.com/p/clem.mchx)
