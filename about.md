@@ -12,12 +12,15 @@ permalink: /about/
 
 ## Clément Monchaux — mchx-cs
 
-Étudiant en cybersécurité (formation Jedha Bootcamp), orienté **pentest** et **red team**, avec un intérêt particulier pour le **web**.
+Étudiant en cybersécurité (formation Jedha Bootcamp), orienté **pentest** et **red team**, avec un intérêt particulier pour le **web** et l'**IA**.
 
 Ce site rassemble mes writeups de CTF et mes notes de pentest — TryHackMe, Web Security Academy (PortSwigger) et d'autres terrains d'entraînement, au fil de ma progression.
 
 **Compétences**
-Burp Suite, Metasploit, Wireshark, GNS3, MITRE ATT&CK · Python, Java, JavaScript, PHP, SQL, Bash/PowerShell
+Burp Suite, MITRE ATT&CK, Outils Kali(Metasploit, Nmap, Hydra, John The Ripper, Wireshark, Tcpdump...)
+
+**Langages**
+Python, Java, JavaScript, PHP, SQL, Bash/PowerShell, Cypher, HTML/CSS
 
 **Contact**
 - [GitHub](https://github.com/mchx-cs)
