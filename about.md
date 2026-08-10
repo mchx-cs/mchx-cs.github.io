@@ -21,6 +21,6 @@ Burp Suite, Metasploit, Wireshark, GNS3, MITRE ATT&CK · Python, Java, JavaScrip
 
 **Contact**
 - [GitHub](https://github.com/mchx-cs)
-- [LinkedIn](#)
+- [LinkedIn](https://www.linkedin.com/in/cl%C3%A9ment-monchaux-64695119a/)
 
 </div>
