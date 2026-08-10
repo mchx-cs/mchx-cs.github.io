@@ -1,3 +1,35 @@
-theme: jekyll-theme-minimal
-title: "[FR] TryHackMe - Wonderland"
-description: "WriteUp du CTF Wonderland sur le site TryHackMe"
+title: "mchx-cs"
+tagline: "Writeups CTF & Pentest"
+description: >-
+  Writeups de CTF et notes de pentest par mchx-cs — TryHackMe, HackTheBox,
+  Web Security Academy et autres terrains de jeu.
+author: "Clément Monchaux"
+url: "https://mchx-cs.github.io"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+permalink: /writeups/:title/
+
+collections:
+  writeups:
+    output: true
+    permalink: /writeups/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock

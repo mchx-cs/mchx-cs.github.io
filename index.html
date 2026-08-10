@@ -1,0 +1,39 @@
+---
+layout: default
+title: Accueil
+---
+<section class="hero">
+  <div class="terminal-chrome">
+    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+    <span class="terminal-title">clement@wonderland: ~</span>
+  </div>
+  <div class="terminal-body hero-body" id="boot-terminal">
+    <p><span class="prompt">clement@wonderland</span><span class="colon">:</span><span class="path">~</span><span class="dollar">$</span> <span class="typed" data-text="whoami"></span></p>
+    <p class="output" data-reveal>mchx-cs — étudiant en cybersécurité, orienté pentest &amp; red team</p>
+    <p><span class="prompt">clement@wonderland</span><span class="colon">:</span><span class="path">~</span><span class="dollar">$</span> <span class="typed" data-text="ls writeups/ | wc -l"></span></p>
+    <p class="output" data-reveal>{{ site.posts | size }} writeups publiés</p>
+    <p><span class="prompt">clement@wonderland</span><span class="colon">:</span><span class="path">~</span><span class="dollar">$</span> <span class="typed typed-cursor" data-text="cat about.txt"></span></p>
+  </div>
+</section>
+
+<section id="writeups" class="writeups-list">
+  <h2><span class="hash">#</span> writeups</h2>
+
+  {% if site.posts.size == 0 %}
+  <p class="muted">Aucun writeup pour le moment. Ajoute un fichier dans <code>_posts/</code>.</p>
+  {% endif %}
+
+  <div class="file-listing">
+    <div class="file-listing-head">
+      <span>nom</span><span>plateforme</span><span>difficulté</span><span>date</span>
+    </div>
+    {% for post in site.posts %}
+    <a class="file-row" href="{{ post.url | relative_url }}">
+      <span class="file-name">{{ post.title }}</span>
+      <span class="file-platform">{{ post.platform | default: "—" }}</span>
+      <span class="file-diff diff-{{ post.difficulty | default: 'na' | downcase }}">{{ post.difficulty | default: "—" }}</span>
+      <span class="file-date">{{ post.date | date: "%d/%m/%Y" }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
