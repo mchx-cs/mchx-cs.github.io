@@ -9,7 +9,7 @@ tags: [web, python, ctf, enumeration, privilege escalation, sudo, steganography]
 
 Dans ce CTF notre objectif est de récupérer 2 flags (user.txt / root.txt) sur une machine Linux en progressant d'un accès web anonyme jusqu'au compte root à l'aide d'une escalation horizontale sur le thème d'Alice au Pays des Merveilles.
 
-##Outils/Technos Utilisés
+## Outils/Technos Utilisés
 
 Reconnaissance :
 - Nmap
