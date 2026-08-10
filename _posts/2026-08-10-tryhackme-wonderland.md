@@ -1,7 +1,7 @@
 ---
 title: "TryHackMe - Wonderland"
 platform: "TryHackMe"
-difficulty: "Medium"
+difficulty: "Hard"
 tags: [web, python, sudo, ctf]
 ---
 
