@@ -84,11 +84,6 @@ cat config_dec.txt
 {"app_name":"NexusCorp Portal","version":"2.3.1","deploy_env":"production","system_user":"devops"}
 ```
 
-```bash
-$ cat hint.txt 
-follow the r a b b i t
-```
-
 On obtient ainsi le nom d'un utilisateur système (devops), une piste à garder pour la suite.
 
 Un gobuster ciblé sur /api/ révèle plusieurs endpoints, dont /api/reset.php (405 en GET, attend du POST) et /api/files.php (401, protégé). En envoyant une requête POST en JSON directement à /api/reset.php (plutôt qu'en passant par le formulaire HTML qui masque une partie de la réponse), on découvre que l'API renvoie directement un token de reset en clair, censé normalement être envoyé par email :
@@ -101,6 +96,7 @@ curl -X POST http://<<target>>/api/reset.php -H "Content-Type: application/json"
 Sur la page /reset.php?token=..., le champ "username to reset" n'est pas verrouillé sur l'utilisateur pour qui le token a été généré. En le remplaçant par un autre username non-admin (sarah.johnson), on parvient à réinitialiser son mot de passe avec le token de michael.chen — une faille de type IDOR / broken access control, le token n'étant pas lié côté serveur à l'utilisateur qui l'a demandé.
 
 Une fois connecté avec sarah.johnson, le dashboard propose un "File Viewer" via /api/files.php?name=, nécessitant un JWT récupéré sur /api/auth/token.php. Ce JWT a un rôle user, insuffisant pour l'endpoint qui exige un rôle admin. Le code JS de session ne vérifiant aucune signature côté client, on tente une attaque classique alg:none : forger un JWT non signé avec un rôle admin, en Python :
+
 ```python
 import base64, json
 
