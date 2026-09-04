@@ -76,19 +76,6 @@ gobuster dir -u http://<<target>> -w /usr/share/wordlists/dirbuster/directory-li
 /backup    (Status: 301)
 ```
 
-```bash
-$ steghide info white_rabbit_1.jpg 
-"white_rabbit_1.jpg":
-  format: jpeg
-  capacity: 99.2 KB
-Try to get information about embedded data ? (y/n) y
-Enter passphrase: 
-  embedded file "hint.txt":
-    size: 22.0 Byte
-    encrypted: rijndael-128, cbc
-    compressed: yes
-```
-
 /backup/ contient un fichier config.enc, confirmé par un README.txt comme étant chiffré en AES-128-ECB avec la clé trouvée dans app.js (à compléter avec des null bytes pour atteindre 16 octets) :
 
 ```bash
