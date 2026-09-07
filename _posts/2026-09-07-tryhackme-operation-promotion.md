@@ -137,18 +137,10 @@ GET /admin/users/lookup.php?id=1
 
 Le paramètre id est de type number côté HTML, mais cette contrainte est purement côté client. Contrairement au login, id est ici casté en entier côté serveur (les payloads SQLi classiques échouent, y compris OR 1=1 testé sur un id inexistant), donc pas de SQLi possible sur ce paramètre.
 
-En revanche, aucun contrôle d'autorisation n'empêche de consulter le profil de n'importe quel utilisateur en changeant simplement l'id. Énumération complète (id=1 à 9) :
+En revanche, aucun contrôle d'autorisation n'empêche de consulter le profil de n'importe quel utilisateur en changeant simplement l'id. Énumération complète (id=1 à 9) (l'id 7 est celui qui va nous intéresser ici) :
 
-ID	Username	Rôle	            Notes
-1	| admin	  | admin	    | Primary admin account.
-2	| mvasquez|	recruiter	| Owns the EMEA pipeline.
-3	| tparker	| recruiter	| Owns the AMER pipeline.
-4	| lhayes	| analyst	  | Reporting only.
-5	| kchen	  | recruiter	| Out on leave.
-6	| rdavis	| analyst 	| Reporting only.
-7	| sysmaint|	system	  | Service account for /admin/sysmaint-checks/ping.php. Do not disable.
-8	| jbailey	| recruiter	| New starter Q3.
-9	| aokafor	| recruiter	| APAC.
+ID : Username : Rôle : Notes
+7 : sysmaint : system : Service account for /admin/sysmaint-checks/ping.php. Do not disable.
 
 La fiche du compte sysmaint (id=7) révèle un endpoint interne jusque-là inconnu : /admin/sysmaint-checks/ping.php.
 
