@@ -4,6 +4,7 @@ description: >-
   Writeups de CTF et notes de pentest par mchx-cs — TryHackMe...
 author: "Clément Monchaux"
 url: "https://mchx-cs.github.io"
+future: true
 
 markdown: kramdown
 kramdown:
