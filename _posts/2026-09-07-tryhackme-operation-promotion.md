@@ -139,9 +139,11 @@ Le paramètre id est de type number côté HTML, mais cette contrainte est purem
 
 En revanche, aucun contrôle d'autorisation n'empêche de consulter le profil de n'importe quel utilisateur en changeant simplement l'id. Énumération complète (id=1 à 9) (l'id 7 est celui qui va nous intéresser ici) :
 
+```bash
 ID : Username : Rôle : Notes
 
 7 : sysmaint : system : Service account for /admin/sysmaint-checks/ping.php. Do not disable.
+```
 
 La fiche du compte sysmaint (id=7) révèle un endpoint interne jusque-là inconnu : /admin/sysmaint-checks/ping.php.
 
