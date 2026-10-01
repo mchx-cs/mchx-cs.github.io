@@ -285,3 +285,5 @@ Les vulnérabilités 5, 6 et 10 relèvent du même défaut de conception : **des
 | `/proc/sys/kernel/randomize_va_space` | `2\n` |
 | `/dev/null` | vide — refusé par la plupart des bibliothèques JWT |
 | `/etc/hostname` | variable, à lire d'abord |
+
+Ecrit par [Clément MONCHAUX](https://tryhackme.com/p/clem.mchx)
