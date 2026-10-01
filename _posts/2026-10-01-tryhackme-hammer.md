@@ -1,6 +1,9 @@
-# Write-up — Hammer (TryHackMe)
-
-> CTF résolu le 1er octobre 2026 · auteur : Clément MONCHAUX
+---
+title: "TryHackMe - Hammer"
+platform: "TryHackMe"
+difficulty: "Medium"
+tags: [web, python, ctf, enumeration, jwt-attack, kid-injection, authentication-bypass, brute-force, client-side-validation]
+---
 
 ## La machine
 
